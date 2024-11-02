@@ -5,10 +5,10 @@ let indexEncontrado;
 
 // Creamos dos inmobiliarias una en merida y ota en badajoz, este proceso puede estar dentor de un bucle o ralizar una función para dicho
 let inmo1 = new Inmobiliaria("INMOMERIDA");
-inmo1.addInmueble("1", "piso", "150", "100000");
-inmo1.addInmueble("2", "casa", "250", "25000");
-inmo1.addInmueble("3", "terreno", "15000", "120000");
-inmo1.addInmueble("4", "local", "1000", "300000");
+inmo1.addInmueble("1", "piso", 150, 100000,"A",1989);
+inmo1.addInmueble("2", "casa", 250, 25000,"B",1985);
+inmo1.addInmueble("3", "terreno", 15000, 120000,"C",1901);
+inmo1.addInmueble("4", "local", 1000, 300000,"B",2007);
 conjinmobiliarias.push(inmo1);
 let inmo2 = new Inmobiliaria("INMOBADAJOZ");
 conjinmobiliarias.push(inmo2);
@@ -33,13 +33,25 @@ while (nosalir) {
         let tipo = prompt(
           "Inserta el tipo del inmueble. Puede ser vivenda, local, terreno..."
         );
-        let metros = prompt("Inserta los metros cuadrados del inmueble");
-        let precio = prompt("Inserta el precio de venta");
+        let metros = Number(prompt("Inserta los metros cuadrados del inmueble"));
+        let precio = Number(prompt("Inserta el precio de venta"));
+        let certEnerg;
+        while (certEnerg != 'A' && certEnerg != 'B' && certEnerg != 'C') {
+          certEnerg = prompt ("Inserte la clasificación energetica. Solo son válidas A , B o C");  
+        }
+        let añoActual = new Date().getFullYear();
+
+        let año = 0; 
+        while (año < 1900 || año > añoActual) {
+          año = Number(prompt (`Introduce el año de construcción. Solo se permiten entre el 1900 y ${añoActual}`))
+        }
         conjinmobiliarias[indexEncontrado].addInmueble(
           numero,
           tipo,
           metros,
-          precio
+          precio,
+          certEnerg,
+          año
         );
       } else {
         alert("No existe ninguna inmobiliaria con ese nombre");
@@ -53,7 +65,7 @@ while (nosalir) {
           let tipoinmueble = prompt("Inserta el tipo del inmueble");
           /*creo un array datos para almacenar aquellos inmuebles que cumplan el criterio, para ello llamo al metodo mostrar muebles de la clase inmobiliaria*/
           let datos = [];
-          datos = conjinmobiliarias[indexEncontrado].mostrarInmuebles(tipoinmueble);
+          datos = conjinmobiliarias[indexEncontrado].mostrarInmueblesTipo(tipoinmueble);
           // entra en el if si hay inmuebles en esa inmo del tipo indicado, es mejorable como otros
 
           if (datos.length > 0) {
@@ -76,6 +88,12 @@ while (nosalir) {
               );
               document.write(
                 "PRECIO DE VENTA: " + datos[i].precio + " euros <br>"
+              );
+              document.write(
+                "CERTIFICADO ENERGÉTICO: " + datos[i].certEnerg + "<br>"
+              );
+              document.write(
+                "AÑO DE CONSTRUCCIÓN: " + datos[i].año + "<br>"
               );
               document.write(
                 "------------------------------------------------------------------<br>"
@@ -98,19 +116,20 @@ while (nosalir) {
       indexEncontrado = buscarInmo();
       if (indexEncontrado >= 0) {
         if (conjinmobiliarias[indexEncontrado].inmuebles.length > 0) {
-          let max = prompt("Inserta el tamaño máximo del inmueble");
-          let min = prompt("Inserta el tamaño mínimo del inmueble");
+          let max = Number(prompt("Inserta el tamaño máximo del inmueble"));
+          let min = Number(prompt("Inserta el tamaño mínimo del inmueble"));
           /*creo un array datos para almacenar aquellos inmuebles que cumplan el criterio, para ello llamo al metodo mostrar muebles de la clase inmobiliaria*/
           let datos = [];
-          datos = conjinmobiliarias[indexEncontrado].mostrarInmuebles(max, min);
+          datos = conjinmobiliarias[indexEncontrado].mostrarInmueblesTam(max, min);
           // entra en el if si hay inmuebles en esa inmo del tipo indicado, es mejorable como otros
 
           if (datos.length > 0) {
             document.write(
               "   --------NUEVA CONSULTA PARA LA INMOBILIARIA-------    " +
               conjinmobiliarias[indexEncontrado].nombre +
-              "   para lo locales de tipo    " +
-              tipoinmueble +
+              "<br> </b>" +
+              "   para los locales de con " +
+              max + " metros cuadrados máximo y " + min + " metros cuadrados mínimo" +
               "<br> </b>"
             );
             for (let i = 0; i < datos.length; i++) {
@@ -127,12 +146,18 @@ while (nosalir) {
                 "PRECIO DE VENTA: " + datos[i].precio + " euros <br>"
               );
               document.write(
+                "CERTIFICADO ENERGÉTICO: " + datos[i].certEnerg + "<br>"
+              );
+              document.write(
+                "AÑO DE CONSTRUCCIÓN: " + datos[i].año + "<br>"
+              );
+              document.write(
                 "------------------------------------------------------------------<br>"
               );
             }
             nosalir = false;
           } else {
-            alert("No hay inmuebles en la inmo de ese tipo");
+            alert("No hay inmuebles en la inmobiliaria con esas caractarísticas");
           }
         } else {
           alert("La inmo no tiene ningún inmueble agregado");

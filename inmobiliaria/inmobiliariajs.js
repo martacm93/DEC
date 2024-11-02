@@ -27,15 +27,13 @@ class Inmobiliaria {
 	
    /* metodo mostrar los inmuebles que son de un tipo. por ejemplo nos puede mostrar viviendas, locales...Retorna un array con todos los inmuebles que cumplen el criterio*/
 
-	mostrarInmuebles(pide_tipo) {
-		let encontrado = false;
+	mostrarInmueblesTipo(pide_tipo) {
 		let datosInmuebles = [];
 		if(this.inmuebles.length > 0){
 			for (let i=0;i<this.inmuebles.length;i++){
 				
 				if (this.inmuebles[i].tipo == pide_tipo ) {
 					datosInmuebles.push(this.inmuebles[i]);
-					encontrado = true;
 				}
 			}
 			

@@ -52,7 +52,7 @@ while (nosalir) {
           let tipoinmueble = prompt("Inserta el tipo del inmueble");
           /*creo un array datos para almacenar aquellos inmuebles que cumplan el criterio, para ello llamo al metodo mostrar muebles de la clase inmobiliaria*/
           let datos = [];
-          datos = conjinmobiliarias[indexEncontrado].mostrarInmuebles(tipoinmueble);
+          datos = conjinmobiliarias[indexEncontrado].mostrarInmueblesTipo(tipoinmueble);
           // entra en el if si hay inmuebles en esa inmo del tipo indicado, es mejorable como otros
 
           if (datos.length > 0) {
@@ -82,7 +82,7 @@ while (nosalir) {
             }
             nosalir = false;
           } else {
-            alert("No hay inmuebles en la inmo de ese tipo");
+            alert("No hay inmuebles en la inmobiliaria con estas características");
           }
         } else {
           alert("La inmo no tiene ningún inmueble agregado");
